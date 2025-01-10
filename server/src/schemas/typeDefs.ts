@@ -1,58 +1,52 @@
-const typeDefs = `
-  type User {
-    _id: ID
-    username: String
-    email: String
-    password: String
-    thoughts: [Thought]!
-  }
+const typeDefs = `#graphql
+    type User {
+        _id: String
+        username: String
+        email: String
+        bookCount: Int
+        savedBooks: [Book]!
+    }
 
-  type Thought {
-    _id: ID
-    thoughtText: String
-    thoughtAuthor: String
-    createdAt: String
-    comments: [Comment]!
-  }
+    type Book {
+        bookId: String
+        authors: [String]
+        description: String
+        title: String
+        image: String
+        link: String
+    }
 
-  type Comment {
-    _id: ID
-    commentText: String
-    createdAt: String
-  }
+    input UserInput {
+        username: String!
+        email: String!
+        password: String!
+    }
 
-  input ThoughtInput {
-    thoughtText: String!
-    thoughtAuthor: String!
-  }
+    input BookInput {
+        bookId: String!
+        authors: [String!]
+        description: String!
+        title: String!
+        image: String!
+        link: String!
+    }
 
-  input UserInput {
-    username: String!
-    email: String!
-    password: String!
-  }
-  
-  type Auth {
-    token: ID!
-    user: User
-  }
+    type Auth {
+        token: ID!
+        user: User
+    }
 
-  type Query {
-    users: [User]
-    user(username: String!): User
-    thoughts: [Thought]!
-    thought(thoughtId: ID!): Thought
-    me: User
-  }
+    type Query {
+        me: User
+        user(username: String): User
+    }
 
-  type Mutation {
-    addUser(input: UserInput!): Auth
-    login(email: String!, password: String!): Auth
-    addThought(input: ThoughtInput!): Thought
-    addComment(thoughtId: ID!, commentText: String!): Thought
-    removeThought(thoughtId: ID!): Thought
-    removeComment(thoughtId: ID!, commentId: ID!): Thought
-  }
+    type Mutation {
+        addUser(input: UserInput!): Auth
+        loginUser(email: String!, password: String!): Auth
+        saveBook(input: BookInput!): User
+        removeBook(bookId: ID!): User
+    }
 `;
 
 export default typeDefs;
